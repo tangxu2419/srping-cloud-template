@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: config-client
+server:
+  port: 10002
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      profile: dev
+      name: ${spring.application.name}
+      discovery:
+        enabled: true
+        service-id: config-center
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+---
+spring:
+  profiles: sit
+  cloud:
+    config:
+      profile: sit
+      uri: http://localhost:10001/

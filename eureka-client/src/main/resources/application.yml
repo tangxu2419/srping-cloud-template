@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: eureka-client
+
+---
+spring:
+  profiles: dev
+server:
+  port: 1001
+
+eureka:
+#  instance:
+    #每间隔1s，向服务端发送一次心跳，证明自己依然”存活“
+#    lease-renewal-interval-in-seconds: 1
+    #告诉服务端，如果我2s之内没有给你发心跳，就代表我“死”了，将我踢出掉
+#    lease-expiration-duration-in-seconds: 2
+  client:
+    service-url:
+      defaultZone: http://localhost:1000/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+---
+spring:
+  profiles: client2
+server:
+  port: 2001
+eureka:
+  instance:
+    #服务刷新时间配置，每隔这个时间会主动心跳一次
+    lease-renewal-interval-in-seconds: 5
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
+    lease-expiration-duration-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: http://localhost:2000/eureka/
+    register-with-eureka: true
+    fetch-registry: true
