@@ -1,0 +1,17 @@
+server:
+  port: 8503
+
+spring:
+  application:
+    name: consul-client
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        health-check-path: /actuator/health   # 健康健康路径，也可以自己写
+        health-check-interval: 10s            # 检测轮训时间 1m 代码1分钟
+        #instance-id: consul-client00 实例ID，唯一值
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  ​

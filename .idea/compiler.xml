@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -9,9 +10,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="config-center" />
         <module name="config-client" />
+        <module name="consul-server" />
         <module name="eureka-client" />
         <module name="eureka-server" />
+        <module name="spring-cloud-common" />
+        <module name="spring-cloud-demo" />
+        <module name="spring-cloud-gateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="spring-cloud-comm" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

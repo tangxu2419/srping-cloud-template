@@ -1,0 +1,19 @@
+server:
+  port: 2000
+
+spring:
+  application:
+    name: spring-cloud-demo1
+  profiles:
+    active: dev
+
+  data:
+    mongodb:
+#      uri: mongodb://localhost:27017/entrust
+#      fieldNamingStrategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+      uri: mongodb://entrust:OZfej2DVTY00quxe6dx6@mongo-1.dev.vcredit.com.local:20000,mongo-2.dev.vcredit.com.local:20000,mongo-3.dev.vcredit.com.local:20000/entrust
+      fieldNamingStrategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
+
+
+
+
