@@ -24,7 +24,6 @@ public class AmendScheduledTasks {
 
     private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final String BASE_URL = "http://10.138.61.46:31120";
-//    private static final String BASE_URL = "http://operation.dev.vcredit.com.local:31120/";
 
     /**
      * "0/5 * *  * * ?"   每5秒触发
