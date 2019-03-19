@@ -9,9 +9,21 @@ spring:
 
   data:
     mongodb:
+#      local
       uri: mongodb://localhost:27017/entrust
       fieldNamingStrategy: org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy
 
+fdfs:
+  connect-timeout: 600
+  so-timeout: 1500
+  tracker-list:
+    - 192.168.159.128:22122
+  pool:
+    max-total: 200
+    max-wait-millis: 500
 
 
-
+logging:
+  level:
+    com.github: debug
+    com.vcredit.entrustdelegator: debug

@@ -16,6 +16,7 @@
         <module>spring-cloud-demo</module>
         <module>spring-cloud-gateway</module>
         <module>spring-cloud-common</module>
+        <module>spring-cloud-proxy</module>
     </modules>
 
     <properties>
@@ -23,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
         <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -67,7 +68,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.4</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,32 @@
+server:
+  port: 2100
+
+spring:
+  application:
+    name: spring-cloud-proxy
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+
+zuul:
+  routes:
+    file:
+      path: /**
+#      service-id: asdas
+      url:  http://localhost:2000
+
+fdfs:
+  connect-timeout: 600
+  so-timeout: 1500
+  tracker-list:
+    - 192.168.159.128:22122
+  pool:
+    max-total: 200
+    max-wait-millis: 500
+
+
+logging:
+  level:
+    com.github: debug
+    com.proxy: debug

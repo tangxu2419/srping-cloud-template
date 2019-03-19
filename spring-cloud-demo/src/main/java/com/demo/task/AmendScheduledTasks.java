@@ -63,6 +63,7 @@ public class AmendScheduledTasks {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestParam, headers);
+
         ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
         log.info(exchange.getBody());
     }

@@ -25,30 +25,40 @@ import java.util.Date;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DemoApplicationTest {
 
-    private static final String BASE_URL = "http://10.138.61.46:31120";
-    private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
-
-    @Autowired
-    private RestTemplate restTemplate;
     @Autowired
     private MongoDemoService mongoDemoService;
 
     @Test
     public void test() throws Exception {
-        mongoDemoService.outputCSV();
+        mongoDemoService.outputSignInfoCSV("VCREDIT","BAOFU");
+//        new Thread(()->{
+//            try {
+//                mongoDemoService.outputSignInfoCSV("VCREDIT","BAOFU");
+//            } catch (Exception e) {
+//                log.error(e.toString());
+//            }
+//        }).start();
+//        mongoDemoService.outputSignInfoCSV("VCREDIT","YEEPAY");
     }
 
+
     @Test
-    public void test1(){
-        log.info("===================[关闭存量任务-开关]====================");
-        log.info("关闭时间：{}", DateFormatUtils.format(new Date(),DEFAULT_PATTERN));
-        String url = BASE_URL + "/amend/break-off";
-        String requestParam = "breakOff=false";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestParam, headers);
-        ResponseEntity<String> exchange = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        log.info(exchange.getBody());
+    public void test1() throws Exception {
+        mongoDemoService.outputSignInfoCSV("VCREDIT","YEEPAY");
+//        new Thread(()->{
+//            try {
+//                mongoDemoService.outputSignInfoCSV("VCREDIT","BAOFU");
+//            } catch (Exception e) {
+//                log.error(e.toString());
+//            }
+//        }).start();
+//        mongoDemoService.outputSignInfoCSV("VCREDIT","YEEPAY");
     }
+
+//    @Test
+//    public void test2() throws Exception {
+//        mongoDemoService.outputSignInfoCSV("VCREDIT","YEEPAY");
+//    }
+
 
 }

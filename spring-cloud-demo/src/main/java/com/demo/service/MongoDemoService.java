@@ -7,6 +7,9 @@ import com.demo.domain.ApplyRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -96,6 +99,11 @@ public class MongoDemoService {
     }
 
 
+    /**
+     * 易宝存量导入签约信息
+     *
+     * @throws Exception
+     */
     public void outputCSV() throws Exception {
         List<Criteria> criterias = new ArrayList<>();
         String regex = "^.*stock_.*$";
@@ -114,8 +122,6 @@ public class MongoDemoService {
             criteria = criteria.andOperator(criterias.toArray(new Criteria[0]));
         }
         Query query = new Query(criteria);
-        List<ApplyPO> list = mongoTemplate.find(query, ApplyPO.class);
-        log.info("总共查询到符合条件的记录数：{}", list.size());
         FileOutputStream fos2;
         BufferedWriter csvWtriter = null;
         try {
@@ -124,6 +130,8 @@ public class MongoDemoService {
             csvWtriter = new BufferedWriter(new OutputStreamWriter(fos2, UTF_8), 10240);
             AtomicInteger count = new AtomicInteger();
             BufferedWriter finalCsvWtriter = csvWtriter;
+            List<ApplyPO> list = mongoTemplate.find(query, ApplyPO.class);
+            log.info("总共查询到符合条件的记录数：{}", list.size());
             list.forEach(po -> {
                 ApplyBasicInfoPO basic = applyBasicInfoRepository.findFirstByApplyId(po.getApplyId()).orElse(null);
                 if (null != basic) {
@@ -154,5 +162,61 @@ public class MongoDemoService {
         }
     }
 
+
+    /**
+     * 易宝存量导入签约信息
+     *
+     * @throws Exception
+     */
+    public void outputSignInfoCSV(String contractSubject, String channelCode) throws Exception {
+        List<Criteria> criterias = new ArrayList<>();
+        criterias.add(Criteria.where("contract_subject").is(contractSubject));
+        criterias.add(Criteria.where("channel_code").is(channelCode));
+        criterias.add(Criteria.where("apply_result").is("SIGNED"));
+        Criteria criteria = new Criteria();
+        if (criterias.size() > 0) {
+            criteria = criteria.andOperator(criterias.toArray(new Criteria[0]));
+        }
+        int count = 0;
+        int pageSize = 20000;
+        int pageNum = 1;
+        while (true) {
+            Pageable pageable = PageRequest.of(pageNum - 1, pageSize, new Sort(Sort.Direction.ASC, "_id"));
+            Query query = new Query(criteria).with(pageable);
+            List<ApplyPO> list = mongoTemplate.find(query, ApplyPO.class);
+            if (list.isEmpty()) {
+                log.info("总记录数：{}", count);
+                break;
+            }
+            log.info("查询到符合条件 第{}页，当前页记录数{}", pageNum, list.size());
+            count += list.size();
+            FileOutputStream fos2;
+            BufferedWriter csvWtriter = null;
+            try {
+                fos2 = new FileOutputStream("D:\\data\\kadou20190307\\" + channelCode + ".csv", true);
+                csvWtriter = new BufferedWriter(new OutputStreamWriter(fos2, UTF_8), 10240);
+                BufferedWriter finalCstWriter = csvWtriter;
+                list.forEach(po -> {
+                    ApplyBasicInfoPO basic = applyBasicInfoRepository.findFirstByApplyId(po.getApplyId()).orElse(null);
+                    if (null != basic) {
+                        try {
+                            String rowStr = basic.getAccountNo().concat("\r\n");
+                            finalCstWriter.write(rowStr);
+                            finalCstWriter.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                pageNum++;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                assert csvWtriter != null;
+                csvWtriter.close();
+            }
+        }
+
+    }
 
 }
