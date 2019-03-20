@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/1911:08
  */
 @Slf4j
-@Component
+//@Component
 public class ProxyServletFilter extends ZuulFilter {
 
     @Override
     public String filterType() {
-        return FilterConstants.POST_TYPE;
+        return FilterConstants.PRE_TYPE;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ProxyServletFilter extends ZuulFilter {
         String contextPath = requestContext.getRequest().getRequestURL().toString();
         log.info("请求地址：{}", contextPath);
         log.info("请求信息：{}", requestContext.toString());
-        requestContext.addZuulRequestHeader("filePath", "/asdasd/asdasd/asdasdas.png");
+        requestContext.getRequest().setAttribute("filePath", "/asdasd/asdasd/asdasdas.png");
         return null;
     }
 }

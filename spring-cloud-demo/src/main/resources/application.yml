@@ -26,4 +26,4 @@ fdfs:
 logging:
   level:
     com.github: debug
-    com.vcredit.entrustdelegator: debug
+    com.demo: debug

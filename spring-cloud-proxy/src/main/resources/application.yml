@@ -28,5 +28,6 @@ fdfs:
 
 logging:
   level:
+    org.springframework: debug
     com.github: debug
     com.proxy: debug

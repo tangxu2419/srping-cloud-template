@@ -51,15 +51,16 @@ public class FastDfsController {
     /**
      * 上传图片
      */
-    @RequestMapping(value = "/**", method = RequestMethod.POST)
+    @RequestMapping(value = "/**")
     public ResponseEntity batchUpload(HttpServletRequest request) {
         String contextPath = request.getRequestURL().toString();
         log.info("请求地址：{}", contextPath);
+        log.info("参数：{}", request.getAttribute("filePath"));
 //        MultipartHttpServletRequest servletRequest = ;
-        List<MultipartFile> file = ((MultipartHttpServletRequest) request).getFiles("file");
+//        List<MultipartFile> file = ((MultipartHttpServletRequest) request).getFiles("file");
 //        List<String> filePaths = fastDfsClientWrapper.uploadFile(file);
         String filePaths = "/test/test/test/adasd";
-        request.setAttribute("filePath", filePaths);
+//        request.setAttribute("filePath", filePaths);
 //        return "forward:http://10.138.30.217:2000/app";
         Map responseMap = Map.of(
                 "returnCode", "0000",
